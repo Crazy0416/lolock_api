@@ -332,7 +332,7 @@ router.post('/loradata', function(req, res, next) {
     var content = notificationMessage.con[0]; // lora 명령어
     var lastModifiedTime = notificationMessage.lt[0]; // Thingplug에 전송된 시간
     var uri = notificationMessage.sr[0].split('/');
-    var LTID = uri[3].substring(10);
+    var LTID = uri[3];
 
     console.log(content, lastModifiedTime); // content 2017-07-16T21:35:14+09:00
     console.log("LTID : " + LTID);
@@ -611,7 +611,13 @@ var checkTrespassing = function(arg) {
             if (rows[0].temp_out_flag == null) {
                 reqFcm.sendPushToRoommate(arg, "2", "등록되지 않은 사용자가 침입했습니다.");
             }
-            mysql.query("UPDATE lolock_devices SET temp_out_flag = NULL WHERE device_id = ? ", [arg]);
+            mysql.query("UPDATE lolock_devices SET temp_out_flag=NULL WHERE device_id = ? ", [arg])
+                .then(function(rows){
+                    console.log('temp_out_flag 원상 복귀')
+                })
+                .catch(function(err){
+                    console.log('temp_out_flag 원상복귀 오류 :'+ err);
+                })
         }).catch(function(err) {
             console.log(err);
             console.log("출입로그 기록 실패 in /checkout");
