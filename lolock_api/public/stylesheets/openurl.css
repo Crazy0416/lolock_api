@@ -1,0 +1,19 @@
+@import url(//fonts.googleapis.com/earlyaccess/hanna.css);
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.container .main-img {
+    flex:7;
+    border-radius: 70px;
+}
+.main-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex:3;
+    font-size: 24px;
+    font-family: 'Hanna';
+    margin-top: 5rem;
+}
