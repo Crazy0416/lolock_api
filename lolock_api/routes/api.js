@@ -332,7 +332,7 @@ router.post('/loradata', function(req, res, next) {
     var content = notificationMessage.con[0]; // lora 명령어
     var lastModifiedTime = notificationMessage.lt[0]; // Thingplug에 전송된 시간
     var uri = notificationMessage.sr[0].split('/');
-    var LTID = uri[3];
+    var LTID = uri[3].substring(10);
 
     console.log(content, lastModifiedTime); // content 2017-07-16T21:35:14+09:00
     console.log("LTID : " + LTID);
