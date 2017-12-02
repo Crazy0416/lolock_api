@@ -182,7 +182,7 @@ router.get('/homemateslist/:LTID', function(req, res, next) {
 router.put('/remote-open', function(req, res, next) {
     var jsonRes = req.body;
     var openDeviceId = jsonRes.openDeviceId;
-    console.log(openDeviceId + " remote-open to Thingplug");
+    console.log(openDeviceId.substr(0,10) + "... remote-open to Thingplug");
     mysql.query("SELECT id FROM lolock_users WHERE phone_id=?", [openDeviceId])
         .spread(function(rows) {
             return mysql.query("SELECT device_id FROM lolock_register WHERE user_id = ? ", [rows[0].id]);
@@ -192,7 +192,7 @@ router.put('/remote-open', function(req, res, next) {
 
         })
         .spread(function(rows) {
-            console.log("send remote-open to Thingplug : " + rows);
+            console.log("send remote-open to Thingplug : " + rows[0]);
             sendControllMessage("26", rows[0].device_id, res);
         })
 })
