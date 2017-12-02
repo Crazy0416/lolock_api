@@ -335,7 +335,7 @@ router.post('/loradata', function(req, res, next) {
 
     console.log(content, lastModifiedTime); // content 2017-07-16T21:35:14+09:00
     console.log("LTID : " + LTID);
-    console.log("uri" : uri);
+    console.log("uri " + uri);
     console.log("typeof content : " + typeof content);
     if (content[0] == "3" && content[1] == "0") // 누군가 나갈때
     {
