@@ -433,7 +433,7 @@ router.get('/outing-log/:phoneId', function(req, res, next) {
     var phoneId = req.params.phoneId;
     mysql.query("SELECT id FROM lolock_users WHERE phone_id=?", [phoneId])
         .spread(function(rows) {
-            console.log('outing-log : ' + rows[0]['name'] + "의 log");
+            console.log('outing-log : ' + phoneId.substr(0,10) + "의 log");
             return mysql.query("SELECT device_id FROM lolock_register WHERE user_id = ? ", [rows[0].id]);
         })
         .spread(function(rows) {
@@ -462,8 +462,6 @@ router.get('/outing-log/:phoneId', function(req, res, next) {
                     var week = new Array('일', '월', '화', '수', '목', '금', '토');
                     var today = new Date(resTime.substring(0, 4) + '-' + resTime.substring(4, 6) * 1 + '-' + resTime.substring(6, 8) * 1 + " " + resTime.substring(8, 10) * 1 + ":" + resTime.substring(10, 12) * 1);
                     var todayLabel = week[today.getDay()];
-                    console.log(today.getTime() + " " + resTime.substring(0, 4) + '-' + resTime.substring(4, 6) * 1 + '-' + resTime.substring(6, 8) * 1);
-                    console.log(new Date().getTime());
                     var jsonObj = {
                         "name": resName,
                         "outFlag": rows[i].out_flag,
