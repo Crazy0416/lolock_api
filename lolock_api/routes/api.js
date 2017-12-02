@@ -12,6 +12,7 @@ var weatherService = require('./weatherService');
 var reqFcm = require('./reqFcm');
 
 router.use(function(res, req, next) {
+    console.log('\n\n\n');
     console.log(moment().format());
     next();
 })
