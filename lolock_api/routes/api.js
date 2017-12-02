@@ -334,8 +334,8 @@ router.post('/loradata', function(req, res, next) {
     var LTID = uri[3].substring(10);
 
     console.log(content, lastModifiedTime); // content 2017-07-16T21:35:14+09:00
-    console.log(LTID);
-
+    console.log("LTID : " + LTID);
+    console.log("uri" : uri);
     console.log("typeof content : " + typeof content);
     if (content[0] == "3" && content[1] == "0") // 누군가 나갈때
     {
@@ -543,7 +543,7 @@ router.get('/open-url/:phoneId', function(req, res, next) {
         .then(function() {
             res.json({
                 code: 'CREATED',
-                link: "http://13.124.94.67:10080/Thingplug/disposable-link/" + randomStr
+                link: "http://52.79.83.113:10080/Thingplug/disposable-link/" + randomStr
             });
         })
         .catch(function(err) {
