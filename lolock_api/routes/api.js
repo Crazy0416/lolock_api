@@ -51,7 +51,7 @@ function sendControllMessage(code, device_id, res) {
                 //console.log(result.ThingPlug.result_code);
                 //console.log(result.ThingPlug.user[0].uKey);
             });
-            console.log(body);
+            console.log("문열림 메세지 전송 성공!!! 및 문 열림!!");
             return res.json({
                 code: 'SUCCESS',
                 message: '작성 성공'
@@ -102,7 +102,7 @@ router.get('/userInfo/:phoneId', function(req, res, next) {
     var userName;
     mysql.query("SELECT * FROM lolock_users WHERE phone_id=?", [userPhoneId])
         .spread(function(rows) {
-            console.log(rows.length);
+            console.log("phone_id로 찾은 user 수" + rows.length);
             if (rows.length == 0) {
                 res.json({
                     code: 'NOT REGISTRED',
@@ -115,13 +115,13 @@ router.get('/userInfo/:phoneId', function(req, res, next) {
                 userName = rows[0].name;
                 mysql.query("SELECT device_id FROM lolock_register WHERE user_id = ?", [rows[0].id])
                     .spread(function(rows) {
-                        console.log(rows.length);
+                        console.log("user_id로 찾은 user 수" + rows.length);
                         if (rows.length != 0) {
                             return mysql.query("SELECT * FROM lolock_devices WHERE id = ?", [rows[0].device_id]);
                         }
                     })
                     .spread(function(rows) {
-                        console.log(rows.length);
+                        console.log("id로 찾은 user 수" + rows.length);
                         if (rows.length != 0) {
                             res.json({
                                 code: 'REGISTRED',
@@ -140,9 +140,8 @@ router.get('/userInfo/:phoneId', function(req, res, next) {
 
 /* GET housemate list and response to app */
 router.get('/homemateslist/:LTID', function(req, res, next) {
-    console.log(JSON.stringify(req.headers.ltid)); // "Headers 의 LTID 키를 가져옴"
     var LoLockId = "00000174d02544fffe" + req.params.LTID;
-    console.log(LoLockId);
+    console.log("LoLock Id : " + LoLockId);
     mysql.query("SELECT id FROM lolock_devices WHERE device_id=?", [LoLockId])
         .spread(function(rows) {
             if (rows[0] == null) {
@@ -165,13 +164,15 @@ router.get('/homemateslist/:LTID', function(req, res, next) {
                             };
                             jsonArray.push(jsonObj);
                             count++;
+                            if(rows.length - 1 == i){
+                                console.log("Homematelist response 완료!!!");
+                                var result = {
+                                    "mates": jsonArray,
+                                    "mateNumber": count
+                                }
+                                res.json(result);
+                            }
                         }
-                        var result = {
-                            "mates": jsonArray,
-                            "mateNumber": count
-                        }
-                        res.json(result);
-                        //res.send(rows);
                     });
             }
         })
@@ -181,32 +182,30 @@ router.get('/homemateslist/:LTID', function(req, res, next) {
 router.put('/remote-open', function(req, res, next) {
     var jsonRes = req.body;
     var openDeviceId = jsonRes.openDeviceId;
-    console.log(openDeviceId);
+    console.log(openDeviceId + " remote-open to Thingplug");
     mysql.query("SELECT id FROM lolock_users WHERE phone_id=?", [openDeviceId])
         .spread(function(rows) {
-            console.log(rows);
             return mysql.query("SELECT device_id FROM lolock_register WHERE user_id = ? ", [rows[0].id]);
         })
         .spread(function(rows) {
-            console.log(rows);
             return mysql.query("SELECT device_id FROM lolock_devices WHERE id = ? ", [rows[0].device_id]);
 
         })
         .spread(function(rows) {
-            console.log(rows);
+            console.log("send remote-open to Thingplug : " + rows);
             sendControllMessage("26", rows[0].device_id, res);
         })
 })
 
 /* POST 핸드폰에서 자신이 나갔다고 서버에 로그 등록을 요청 */
 router.get('/checkout/:phone_id', function(req, res, next) {
-    console.log(req.params.phone_id + "가 나갔음")
     var name = "";
 
     mysql.query("UPDATE lolock_users SET flag = 0 WHERE phone_id = ? ", [req.params.phone_id]);
     mysql.query("SELECT id, name FROM lolock_users WHERE phone_id=?", req.params.phone_id)
         .spread(function(idrows) {
             name = idrows[0].name;
+            console.log(idrows[0]['id'] + " : " + name + "가 나갔음")
             return mysql.query("SELECT * FROM lolock_register AS R LEFT JOIN lolock_users AS U ON R.user_id = U.id  WHERE R.device_id = (SELECT device_id FROM lolock_register WHERE user_id = ?)", idrows[0].id)
         })
         .spread(function(roommateRows) {
@@ -276,6 +275,7 @@ router.get('/checkin/:phone_id', function(req, res, next) {
     mysql.query("SELECT id, name FROM lolock_users WHERE phone_id=?", req.params.phone_id)
         .spread(function(idrows) {
             name = idrows[0].name;
+            console.log(req.params.phone_id + " : " + name + "가 들어왔음")
             return mysql.query("SELECT * FROM lolock_register AS R LEFT JOIN lolock_users AS U ON R.user_id = U.id  WHERE R.device_id = (SELECT device_id FROM lolock_register WHERE user_id = ?)", idrows[0].id)
         })
         .spread(function(roommateRows) {
@@ -430,17 +430,15 @@ router.post('/register', function(req, res, next) {
 /* GET 출입 기록 관리 */
 router.get('/outing-log/:phoneId', function(req, res, next) {
     var phoneId = req.params.phoneId;
-    var randomStr;
     mysql.query("SELECT id FROM lolock_users WHERE phone_id=?", [phoneId])
         .spread(function(rows) {
-            console.log(rows);
+            console.log('outing-log : ' + rows[0]['name'] + "의 log");
             return mysql.query("SELECT device_id FROM lolock_register WHERE user_id = ? ", [rows[0].id]);
         })
         .spread(function(rows) {
             return mysql.query("SELECT * FROM lolock_logs AS L LEFT JOIN lolock_users AS U ON L.user_id = U.id WHERE device_id = ? ORDER BY L.time DESC", [rows[0].device_id]);
         })
         .spread(function(rows) {
-            console.log(rows);
             if (rows.length == 0) {
                 res.send();
             } else {
@@ -532,16 +530,13 @@ router.get('/open-url/:phoneId', function(req, res, next) {
         .spread(function(rows) {
             console.log(rows);
             return mysql.query("SELECT device_id FROM lolock_devices WHERE id = ? ", [rows[0].device_id]);
-
         })
         .spread(function(rows) {
-            console.log(rows);
-            console.log();
             randomStr = Math.random().toString(36);
-            console.log(randomStr);
             return mysql.query("INSERT INTO lolock_open_url (device_id,url) VALUES(?,?)", [rows[0].device_id, randomStr]);
         })
         .then(function() {
+            console.log("일회용 키 발급 완료!!!");
             res.json({
                 code: 'CREATED',
                 link: "http://52.79.83.113:10080/Thingplug/disposable-link/" + randomStr
@@ -580,6 +575,7 @@ router.delete('/disposable-link/:linkId', function(req, res, next) {
                       sendControllMessage("26", device_id, res);
                       // TODO : open_url을 통해 누가 문을 열었다고 동거인에게 알려줌
                       reqFcm.sendPushToRoommate(device_id, "1", "임시키를 통해 누군가 들어왔습니다.");
+                      console.log(device_id + " : 임시키로 인해 문이 열림");
                       mysql.query("SELECT id FROM lolock_devices WHERE device_id=?", device_id)
                         .spread(function(rows){
                           return mysql.query("INSERT INTO lolock_logs (device_id, time, out_flag) VALUES (?,?,?)", [rows[0].id, time, 1]);
@@ -618,6 +614,7 @@ var checkTrespassing = function(arg) {
             }
             mysql.query("UPDATE lolock_devices SET temp_out_flag = NULL WHERE device_id = ? ", [arg]);
         }).catch(function(err) {
+            console.log(err);
             console.log("출입로그 기록 실패 in /checkout");
         })
 };
