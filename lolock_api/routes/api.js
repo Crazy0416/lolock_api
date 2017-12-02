@@ -605,6 +605,7 @@ router.get('/disposable-link/:linkId', function(req, res, next) {
 
 //불법침임 감지
 var checkTrespassing = function(arg) {
+    console.log("침입한 사람 " + arg);
     mysql.query("SELECT temp_out_flag FROM lolock_devices WHERE device_id = ?", [arg])
         .spread(function(rows) {
           console.log(rows);
