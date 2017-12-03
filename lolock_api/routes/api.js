@@ -210,15 +210,14 @@ router.get('/checkout/:phone_id', function(req, res, next) {
             return mysql.query("SELECT * FROM lolock_register AS R LEFT JOIN lolock_users AS U ON R.user_id = U.id  WHERE R.device_id = (SELECT device_id FROM lolock_register WHERE user_id = ?)", idrows[0].id)
         })
         .spread(function(roommateRows) {
-            /*
             mysql.query("SELECT temp_out_flag FROM lolock_devices WHERE device_id=?", roommateRows[j].device_id);
                 .spread(function(rows){
+                    console.log("문이 열리지 않았는데 checkout이 왔는가? : "+ rows)
                     if(rows[0]['temp_out_flag'] == null){
                         res.status(204);
                         res.send()
                     }
                 })
-                */
             for (var j in roommateRows) {
                 var pushData = {}
                 if (roommateRows[j].phone_id == req.params.phone_id) {
