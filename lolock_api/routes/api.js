@@ -201,7 +201,6 @@ router.put('/remote-open', function(req, res, next) {
 /* POST 핸드폰에서 자신이 나갔다고 서버에 로그 등록을 요청 */
 router.get('/checkout/:phone_id', function(req, res, next) {
     var name = "";
-    //mysql.query("SELECT temp_out_flag FROM lolock_devices WHERE device_id=?", roommateRows[j].device_id);
     mysql.query("UPDATE lolock_users SET flag = 0 WHERE phone_id = ? ", [req.params.phone_id]);
     mysql.query("SELECT id, name FROM lolock_users WHERE phone_id=?", req.params.phone_id)
         .spread(function(idrows) {
@@ -209,15 +208,7 @@ router.get('/checkout/:phone_id', function(req, res, next) {
             console.log(idrows[0]['id'] + " : " + name + "가 나갔음")
             return mysql.query("SELECT * FROM lolock_register AS R LEFT JOIN lolock_users AS U ON R.user_id = U.id  WHERE R.device_id = (SELECT device_id FROM lolock_register WHERE user_id = ?)", idrows[0].id)
         })
-        .spread(function(roommateRows) {
-            mysql.query("SELECT temp_out_flag FROM lolock_devices WHERE device_id=?", roommateRows[0].device_id)
-                .spread(function(rows){
-                    console.log("문이 열리지 않았는데 checkout이 왔는가2222? : "+ JSON.stringify(rows))
-                    if(rows[0]['temp_out_flag'] == null){
-                        res.status(204);
-                        res.send()
-                    }
-                })
+        .spread(function(roommateRows) {11
             for (var j in roommateRows) {
                 var pushData = {}
                 if (roommateRows[j].phone_id == req.params.phone_id) {
