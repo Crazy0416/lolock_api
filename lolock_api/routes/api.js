@@ -214,9 +214,8 @@ router.get('/checkout/:phone_id', function(req, res, next) {
             mysql.query("SELECT temp_out_flag FROM lolock_devices WHERE device_id=?", roommateRows[j].device_id);
                 .spread(function(rows){
                     if(rows[0]['temp_out_flag'] == null){
-                        res.send({
-
-                        })
+                        res.status(204);
+                        res.send()
                     }
                 })
                 */
