@@ -26,7 +26,7 @@ module.exports.receiveWeatherInfo = function(gps_long, gps_lat, addr, lastModifi
     }
     console.log("date : " + date);
     console.log("time : " + time);
-    child = exec("../../a.out 0 " + gps_long + " " + gps_lat, function(error, stdout, stderr) {
+    child = exec("a.out 0 " + gps_long + " " + gps_lat, function(error, stdout, stderr) {
         if (error !== null) {
             console.log("현재 디렉토리 : " + __dirname);
             console.log('exec error: ' + error);
