@@ -600,7 +600,7 @@ router.delete('/disposable-link/:linkId', function(req, res, next) {
 
 /* GET 받은 일회용 키로 접속했을때 open_url.html을 response 한다. */
 router.get('/disposable-link/:linkId', function(req, res, next) {
-    res.sendFile(path.join(__dirname, '../public/html') + 'open_url.html');
+    res.sendFile(path.join(__dirname, '../public/html/') + 'open_url.html');
 });
 
 
