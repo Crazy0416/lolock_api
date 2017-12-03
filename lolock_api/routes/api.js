@@ -355,7 +355,7 @@ router.post('/loradata', function(req, res, next) {
         console.log("불법침입감지 시작");
         reqFcm.sendPushToRoommate(LTID, "2", "비정상적인 충격이 감지되었습니다.");
     }
-    res.send();
+res.send();
 });
 
 /* GET 서버에 등록된 기기인지 아닌지 확인 */
