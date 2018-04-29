@@ -16,7 +16,7 @@
 
 ## 통신 구조
 
-![통신 구조](https://github.com/Crazy0416/lolock_api/tree/master/lolock_api/resource/CommunicationStructure.jpg)
+![통신 구조](https://raw.githubusercontent.com/Crazy0416/lolock_api/master/lolock_api/resource/CommunicationStructure.jpg)
 
 Applicatoin Server가 현재 프로젝트의 서버
 
@@ -28,7 +28,7 @@ Lolock API 서버는 ThingPlug와 안드로이드 어플 사이의 중계서버�
 
 ## 서버 아키텍처
 
-![서버 구조](https://github.com/Crazy0416/lolock_api/tree/master/lolock_api/resource/serverArchitecture.png)
+![서버 구조](https://raw.githubusercontent.com/Crazy0416/lolock_api/master/lolock_api/resource/serverArchitecture.png)
 
 서버 아키텍처 구조
 
