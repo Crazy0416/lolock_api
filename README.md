@@ -10,7 +10,7 @@
 
 ## 시연영상 
 
-[유튜브 영상](https://drive.google.com/file/d/15rSLboE11s0tOM-GOkWjteBQhcGrLojL/view?usp=sharing)
+[유튜브 영상](https://www.youtube.com/watch?v=YLgYYioxfqc&feature=youtu.be)
 
 
 
