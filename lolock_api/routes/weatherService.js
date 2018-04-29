@@ -1,7 +1,7 @@
 var exec = require('child_process').exec,
     child;
 var moment = require('moment');
-var request = require('request');
+var request = require('request');z
 
 
 /* 기상청 api를 사용해 현재 지역의 기상정보를 가져옴 */
@@ -26,9 +26,8 @@ module.exports.receiveWeatherInfo = function(gps_long, gps_lat, addr, lastModifi
     }
     console.log("date : " + date);
     console.log("time : " + time);
-    child = exec(__dirname + "/a.out 0 " + gps_long + " " + gps_lat, function(error, stdout, stderr) {
+    child = exec("../../a.out 0 " + gps_long + " " + gps_lat, function(error, stdout, stderr) {
         if (error !== null) {
-            console.log("현재 디렉토리 : " + __dirname);
             console.log('exec error: ' + error);
         }
         var nx = stdout.split(' = ')[1].split(',')[0]; // '62, Y'

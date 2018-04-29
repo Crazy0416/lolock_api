@@ -19,7 +19,7 @@ module.exports.sendPushMessage = function(androidToken, dataObj) {
         }
         var toAppBody = {}; // push 메세지 body
 
-        console.log("PushMessage 내용 : " + androidToken.substr(0, 10) + JSON.stringify(dataObj));
+        console.log("PushMessage 내용 : " + JSON.stringify(dataObj));
 
         toAppBody.data = dataObj;
         toAppBody.to = androidToken;
@@ -29,9 +29,9 @@ module.exports.sendPushMessage = function(androidToken, dataObj) {
             var bodyobj = eval("(" + response.body + ")");
             // TODO : 지금 모든 인원에게 기상 데이터를 보내고 있다. 다른 인원은 log를 보내야함
             if (bodyobj.success === 1) {
-                resolve(androidToken.substr(0,10) + "... 푸시 메세지 보내기 완료");
+                resolve(androidToken + " 푸시 메세지 보내기 완료");
             } else {
-                reject(androidToken.substr(0,10) + " 푸시 메세지 실패!!!");
+                reject(androidToken + " 푸시 메세지 실패!!!");
             }
         })
     });
