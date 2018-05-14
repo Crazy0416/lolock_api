@@ -49,6 +49,23 @@ ThingPlug와 통신할 때도 ThingPlug가 제공하는 규격대로 http 요청
 
 
 
+## Config
+
+### config/db_config.json
+
+```javascript
+{
+  "host" : <"mysql host">,
+  "user" : <"mysql user">,
+  "password" : <"mysql password">,
+  "database" : <"database">
+}
+```
+
+
+
+
+
 ## 전제 조건
 
 1. 로락 디바이스를 판매자(우리)가 먼저 DB의 lolock_devices에 등록을 해둔다
