@@ -8,6 +8,19 @@
 
 
 
+## Lolock 서버 기능
+
+1. gps 좌표를 이용해 현재 좌표의 기상 정보를 가져옴
+2. FCM 서버에 푸시 메세지 보내기 요청
+3. LoLock IoT에 원격 조종 신호 보내기
+4. LoLock IoT에 대한 회원 가입 및 로그인(같은 IoT를 등록하면 그룹 or 가족으로 인식)
+5. 그룹원 리스트 반환 및 그룹원 출입기록 반환
+6. 유저가 집 안 혹은 집 밖인지의 정보를 가지고 있음.
+7. LoLock IoT의 상태 신호를 받음.
+8. LoLock IoT의 일회용 키 발급.
+
+
+
 ## 시연영상 
 
 [유튜브 영상](https://www.youtube.com/watch?v=YLgYYioxfqc&feature=youtu.be)
